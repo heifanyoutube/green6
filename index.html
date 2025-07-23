@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>家庭 QR Code 借用系統（修正版）</title>
+  <title>家庭 QR Code 借用系統（Cloudinary 版）</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
@@ -42,18 +42,18 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app, firebaseConfig.databaseURL); // ✅ 指定區域
+    const db = getDatabase(app, firebaseConfig.databaseURL);
 
     const qrImages = [
-      "https://drive.google.com/uc?export=view&id=1fSqXtaCiahMEPBXIFnbSykgbH3EBWXcb",
-      "https://drive.google.com/uc?export=view&id=1fYix4uSq9hOWOt27geH0ZJcHyzA0rc_t",
-      "https://drive.google.com/uc?export=view&id=1fVUuH9_qdZh32R-qOR1WgdMgMtG5Fq5O",
-      "https://drive.google.com/uc?export=view&id=1fTjf3ZEPxAn3nA81bYaAlTjnCgBPK1L3",
-      "https://drive.google.com/uc?export=view&id=1fYFjAlXY-5XvVBOEbmqtKyIiu1_vxn0T",
-      "https://drive.google.com/uc?export=view&id=1ffjZ0VimIiOd40FTmrIM7cuxcPyyztt1",
-      "https://drive.google.com/uc?export=view&id=1fdX4S1M6vrnkU7FUty8TWkLV_RdQfNS8",
-      "https://drive.google.com/uc?export=view&id=1fbneoiPdkamG8PLJYzQQvOinboMxwfR6",
-      "https://drive.google.com/uc?export=view&id=1fOp15oaRxn2R0IzAXB3uygYeIMXOW0Xu"
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143072/qr1.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143073/qr2.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143073/qr3.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143073/qr4.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143074/qr5.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143074/qr6.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143075/qr7.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143075/qr8.png",
+      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143075/qr9.png"
     ];
 
     let userName = localStorage.getItem('qrUser') || '';
@@ -64,7 +64,9 @@
       if (name) {
         userName = name;
         localStorage.setItem('qrUser', name);
-        renderGrid(); // 強制更新一次畫面
+        renderGrid(); // 更新畫面狀態
+      } else {
+        alert('請輸入名字');
       }
     }
 
