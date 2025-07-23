@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>家庭 QR Code 借用系統（Firebase 12 模組版）</title>
+  <title>家庭 QR Code 借用系統（修正版）</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
@@ -42,7 +42,7 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const db = getDatabase(app, firebaseConfig.databaseURL); // ✅ 指定區域
 
     const qrImages = [
       "https://drive.google.com/uc?export=view&id=1fSqXtaCiahMEPBXIFnbSykgbH3EBWXcb",
@@ -64,7 +64,7 @@
       if (name) {
         userName = name;
         localStorage.setItem('qrUser', name);
-        renderGrid();
+        renderGrid(); // 強制更新一次畫面
       }
     }
 
