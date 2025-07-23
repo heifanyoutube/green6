@@ -1,162 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>家庭 QR Code 借用系統</title>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-    .card { background: white; padding: 1rem; border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
-    .card img { max-width: 100%; height: auto; border-radius: 0.5rem; }
-    .status { margin: 0.5rem 0; font-weight: bold; }
-    button { padding: 0.5rem 1rem; border: none; background: #007bff; color: white; border-radius: 0.5rem; cursor: pointer; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
-  </style>
-</head>
+<head><meta charset="UTF-8" /><title>管理員登入測試</title></head>
 <body>
-  <header>
-    <div>
-      <label for="name">請輸入您的名字：</label>
-      <input type="text" id="name" />
-      <button onclick="setName()">送出</button>
-    </div>
-    <button onclick="adminLogin()">管理員登入</button>
-  </header>
+  <button onclick="adminLogin()">管理員登入</button>
 
-  <div id="qrGrid" class="grid"></div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCUAzmBwdVs8wKpR9i4HB2x4E08xv-_8rE",
-      authDomain: "g6-sys.firebaseapp.com",
-      databaseURL: "https://g6-sys-defa<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>家庭 QR Code 借用系統（修正版）</title>
-  <style>
-    body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
-    .card { background: white; padding: 1rem; border-radius: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
-    .card img { max-width: 100%; height: auto; border-radius: 0.5rem; }
-    .status { margin: 0.5rem 0; font-weight: bold; }
-    button { padding: 0.5rem 1rem; border: none; background: #007bff; color: white; border-radius: 0.5rem; cursor: pointer; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
-  </style>
-</head>
-<body>
-  <header>
-    <div>
-      <label for="name">請輸入您的名字：</label>
-      <input type="text" id="name" />
-      <button onclick="setName()">送出</button>
-    </div>
-    <button onclick="adminLogin()">管理員登入</button>
-  </header>
-
-  <div id="qrGrid" class="grid"></div>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCUAzmBwdVs8wKpR9i4HB2x4E08xv-_8rE",
-      authDomain: "g6-sys.firebaseapp.com",
-      databaseURL: "https://g6-sys-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "g6-sys",
-      storageBucket: "g6-sys.firebasestorage.app",
-      messagingSenderId: "874000345226",
-      appId: "1:874000345226:web:acb39a499e827135e3e573"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app, firebaseConfig.databaseURL);
-
-    const qrImages = [
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278749/WhatsApp_Image_2025-07-22_at_12.39.27_PM_xkvl8y.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278749/WhatsApp_Image_2025-07-22_at_12.39.28_PM_1_sio7dp.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_2_ofjmf1.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_s69ynh.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_3_qx6dew.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.28_PM_2_sjey4c.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278747/WhatsApp_Image_2025-07-22_at_12.39.30_PM_qp7i4b.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_1_a5sp5c.jpg",
-      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278749/WhatsApp_Image_2025-07-22_at_12.39.28_PM_w3nkvp.jpg"
-    ];
-
-    let userName = localStorage.getItem('qrUser') || '';
-    const qrGrid = document.getElementById('qrGrid');
-
-    function setName() {
-      const name = document.getElementById('name').value.trim();
-      if (name) {
-        userName = name;
-        localStorage.setItem('qrUser', name);
-        renderGrid();
-      }
-    }
-
-    function renderGrid(snapshot) {
-      qrGrid.innerHTML = '';
-      const data = snapshot ? snapshot.val() : {};
-      qrImages.forEach((src, i) => {
-        const div = document.createElement('div');
-        div.className = 'card';
-
-        const img = document.createElement('img');
-        img.src = src;
-
-        const status = document.createElement('div');
-        status.className = 'status';
-
-        const record = data && data[i];
-        status.textContent = record && record.by ? `已借出：${record.by}` : '✅ 可借用';
-
-        const btn = document.createElement('button');
-        btn.textContent = '我要借用';
-        btn.disabled = !!(record && record.by);
-        btn.onclick = () => {
-          if (!userName) return alert('請先輸入您的名字');
-          set(ref(db, 'qrcodes/' + i), { by: userName, time: Date.now() });
-        };
-
-        div.appendChild(img);
-        div.appendChild(status);
-        div.appendChild(btn);
-        qrGrid.appendChild(div);
-      });
-    }
-
+  <script>
     function adminLogin() {
-      const acc = prompt('帳號：');
-      const pwd = prompt('密碼：');
+      const acc = prompt('請輸入帳號');
+      const pwd = prompt('請輸入密碼');
       if (acc === 'admin' && pwd === '1234') {
-        if (confirm('是否要清除所有借用紀錄？')) {
-          remove(ref(db, 'qrcodes'));
-        }
+        alert('登入成功');
       } else {
         alert('登入失敗');
       }
     }
-
-    onValue(ref(db, 'qrcodes'), renderGrid);
-
-    if (userName) {
-      document.getElementById('name').value = userName;
-    }
-
-    // 讓 adminLogin 可從 HTML 按鈕呼叫
-    window.adminLogin = adminLogin;
-    // 讓 setName 可從 HTML 按鈕呼叫
-    window.setName = setName;
   </script>
 </body>
 </html>
