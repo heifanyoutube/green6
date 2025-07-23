@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>家庭 QR Code 借用系統（Cloudinary 版）</title>
+  <title>家庭 QR Code 借用系統</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; background: #f8f9fa; }
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
@@ -36,24 +36,24 @@
       authDomain: "g6-sys.firebaseapp.com",
       databaseURL: "https://g6-sys-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "g6-sys",
-      storageBucket: "g6-sys.firebasestorage.app",
+      storageBucket: "g6-sys.appspot.com",
       messagingSenderId: "874000345226",
       appId: "1:874000345226:web:acb39a499e827135e3e573"
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app, firebaseConfig.databaseURL);
+    const db = getDatabase(app);
 
     const qrImages = [
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143072/qr1.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143073/qr2.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143073/qr3.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143073/qr4.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143074/qr5.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143074/qr6.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143075/qr7.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143075/qr8.png",
-      "https://res.cloudinary.com/ds47lsbhs/image/upload/v1690143075/qr9.png"
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278749/WhatsApp_Image_2025-07-22_at_12.39.28_PM_w3nkvp.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278749/WhatsApp_Image_2025-07-22_at_12.39.27_PM_xkvl8y.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278749/WhatsApp_Image_2025-07-22_at_12.39.28_PM_1_sio7dp.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_2_ofjmf1.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_s69ynh.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_3_qx6dew.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.28_PM_2_sjey4c.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278747/WhatsApp_Image_2025-07-22_at_12.39.30_PM_qp7i4b.jpg",
+      "https://res.cloudinary.com/dnc2h7vxz/image/upload/v1753278748/WhatsApp_Image_2025-07-22_at_12.39.29_PM_1_a5sp5c.jpg"
     ];
 
     let userName = localStorage.getItem('qrUser') || '';
@@ -64,7 +64,7 @@
       if (name) {
         userName = name;
         localStorage.setItem('qrUser', name);
-        renderGrid(); // 更新畫面狀態
+        renderGrid(); // 重新渲染
       } else {
         alert('請輸入名字');
       }
@@ -90,7 +90,10 @@
         btn.textContent = '我要借用';
         btn.disabled = !!(record && record.by);
         btn.onclick = () => {
-          if (!userName) return alert('請先輸入您的名字');
+          if (!userName) {
+            alert('請先輸入您的名字');
+            return;
+          }
           set(ref(db, 'qrcodes/' + i), { by: userName, time: Date.now() });
         };
 
@@ -102,14 +105,14 @@
     }
 
     function adminLogin() {
-      const acc = prompt('帳號：');
-      const pwd = prompt('密碼：');
+      const acc = prompt('請輸入管理員帳號：');
+      const pwd = prompt('請輸入管理員密碼：');
       if (acc === 'admin' && pwd === '1234') {
         if (confirm('是否要清除所有借用紀錄？')) {
           remove(ref(db, 'qrcodes'));
         }
       } else {
-        alert('登入失敗');
+        alert('登入失敗！');
       }
     }
 
